@@ -15,7 +15,7 @@ ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
 # 讀取 prompt.json
-with open('../prompt.json', 'r') as f:
+with open('prompt.json', 'r') as f:
     prompt = json.load(f)
 
 def search_youtube(query):

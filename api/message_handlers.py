@@ -1,6 +1,10 @@
 from datetime import datetime
-from utils import search_youtube, send_message, make_prompt
-from bus import get_bus_info
+try:
+    from .utils import search_youtube, send_message, make_prompt
+    from .bus import get_bus_info
+except ImportError:
+    from utils import search_youtube, send_message, make_prompt
+    from bus import get_bus_info
 
 def send_youtube_url(user_id, message_text):
     search_query = message_text[2:].strip()

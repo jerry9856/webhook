@@ -47,13 +47,15 @@ def webhook():
         elif message_text.startswith('now'):
             send_now(user_id)
         elif message_text.startswith('回家'):
-            start_bus_timer(user_id, 'home')
+            # start_bus_timer(user_id, 'home')
+            send_bus_info(user_id, 'home')
         elif message_text.startswith('上班'):
-            start_bus_timer(user_id, 'work')
-        elif message_text == '停':
-            if user_id in user_timers:
-                user_timers[user_id] = False
-                send_message(user_id, "已停止公車資訊更新")
+            # start_bus_timer(user_id, 'work')
+            send_bus_info(user_id, 'work')
+        # elif message_text == '停':
+        #     if user_id in user_timers:
+        #         user_timers[user_id] = False
+        #         send_message(user_id, "已停止公車資訊更新")
         else:
             send_prompt(user_id)
 

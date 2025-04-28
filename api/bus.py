@@ -59,7 +59,7 @@ def format_line_message(bus_info, direction):
     message = f"{title}\n"
     for i, stop in enumerate(bus_info):
         message += f"{stop['stop_name']}\n ➡️ {stop['arrival_time']}\n"
-    message += f'\n每{refresh_time}秒更新一次\n輸入\"停\"以停止...'
+    # message += f'\n每{refresh_time}秒更新一次\n輸入\"停\"以停止...'
     return message
 
 if __name__ == "__main__":

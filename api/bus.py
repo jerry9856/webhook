@@ -2,16 +2,31 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import urllib3
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 refresh_time = 15
 
+# 设置重试策略
+retry_strategy = Retry(
+    total=3,  # 最大重试次数
+    backoff_factor=1,  # 重试间隔
+    status_forcelist=[500, 502, 503, 504]  # 需要重试的HTTP状态码
+)
+
+# 创建session并设置重试策略
+session = requests.Session()
+adapter = HTTPAdapter(max_retries=retry_strategy)
+session.mount("https://", adapter)
+session.mount("http://", adapter)
+
 def get_bus_info(direction='home'):
     url = "https://atis.taipei.gov.tw/aspx/businfomation/presentinfo.aspx?lang=zh-Hant-TW&ddlName=913"
     
     try:
-        response = requests.get(url, verify=False)
+        response = session.get(url, verify=False, timeout=10)  # 设置10秒超时
         response.encoding = 'utf-8'
         
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -56,7 +71,7 @@ def format_line_message(bus_info, direction):
     
     # 根據方向設置標題
     title = "🚌 搭913上班" if direction == 'work' else "🚌 搭913回家"
-    message = f"{title}\n"
+    message = f"{title}\n\n"
     for i, stop in enumerate(bus_info):
         message += f"{stop['stop_name']}\n ➡️ {stop['arrival_time']}\n"
     # message += f'\n每{refresh_time}秒更新一次\n輸入\"停\"以停止...'

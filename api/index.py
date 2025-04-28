@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
 try:
     # 嘗試相對導入（用於 Vercel 部署）
-    from .message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info
+    from .message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info, send_weather_info
     from .utils import send_message
     from .bus import get_bus_info, refresh_time
 except ImportError:
-    from message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info
+    from message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info, send_weather_info
     from utils import send_message
     from bus import get_bus_info, refresh_time
 
@@ -56,6 +56,8 @@ def webhook():
         #     if user_id in user_timers:
         #         user_timers[user_id] = False
         #         send_message(user_id, "已停止公車資訊更新")
+        elif message_text.startswith('天氣'):
+            send_weather_info(user_id)
         else:
             send_prompt(user_id)
 

@@ -1,9 +1,9 @@
 from datetime import datetime
 try:
-    from .utils import search_youtube, send_message, make_prompt
+    from .utils import search_youtube, send_message, make_prompt, get_weather_data, send_image
     from .bus import get_bus_info
 except ImportError:
-    from utils import search_youtube, send_message, make_prompt
+    from utils import search_youtube, send_message, make_prompt, get_weather_data, send_image
     from bus import get_bus_info
 
 def send_youtube_url(user_id, message_text):
@@ -20,6 +20,11 @@ def send_now(user_id):
 def send_bus_info(user_id, direction='home'):
     bus_info = get_bus_info(direction)
     send_message(user_id, bus_info)
+
+def send_weather_info(user_id):
+    weather_info = get_weather_data()
+    send_message(user_id, weather_info[0])
+    # send_image(user_id, weather_info[1])
 
 def send_prompt(user_id):
     send_message(user_id, make_prompt()) 

@@ -1,9 +1,16 @@
 from flask import Flask, request, jsonify
-from message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info
+try:
+    # 嘗試相對導入（用於 Vercel 部署）
+    from .message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info
+    from .utils import send_message
+    from .bus import get_bus_info, refresh_time
+except ImportError:
+    from message_handlers import send_youtube_url, send_now, send_prompt, send_bus_info
+    from utils import send_message
+    from bus import get_bus_info, refresh_time
+
 import threading
 import time
-from utils import send_message
-from bus import get_bus_info, refresh_time
 
 app = Flask(__name__)
 

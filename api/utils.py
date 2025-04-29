@@ -14,10 +14,10 @@ WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 
 # 讀取 prompt.json
 if os.path.exists('prompt.json'):
-    with open('prompt.json', 'r') as f:
+    with open('prompt.json', 'r', encoding='utf-8') as f:
         prompt = json.load(f)
 elif os.path.exists('../prompt.json'):
-    with open('../prompt.json', 'r') as f:
+    with open('../prompt.json', 'r', encoding='utf-8') as f:
         prompt = json.load(f)
 else:
     prompt = []
